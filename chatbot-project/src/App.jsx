@@ -1,99 +1,12 @@
-<!DOCTYPE html>
-<html>
+import { useState, useRef, useEffect } from 'react'
+import {Chatbot} from 'supersimpledev'
+import RobotProfileImage from './assets/robot.png'
+import UserProfileImage from './assets/user.png'
+import './App.css'
 
-<head>
-  <title>Chatbot</title>
-  <style>
-    body {
-      font-family: Arial;
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
+function ChatInput({ chatMessages, setChatMessages }) {
 
-    .send-button {
-      background-color: rgb(25, 135, 84);
-      color: white;
-      padding: 12px 20px;
-      margin-left: 10px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .chat-input {
-      font-size: 15px;
-      padding: 12px 15px;
-      border-width: 1px;
-      border-radius: 10px;
-
-      flex-grow: 1;
-    }
-
-    .chat-input-container {
-      display: flex;
-      margin-bottom: 60px;
-    }
-
-    .app-container {
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-
-      height: 100vh;
-      display:flex;
-      flex-direction: column;
-    }
-
-    .chat-message-user {
-      display: flex;
-      justify-content: end;
-      align-items: start;
-
-    }
-
-    .chat-message-robot {
-      display: flex;
-      align-items: start;
-    }
-
-    .chat-message-text {
-      background-color: rgb(238, 238, 238);
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-right: 10px;
-      margin-left: 10px;
-      margin-bottom: 20px;
-      max-width: 300px;
-    }
-
-    .chat-message-profile {
-      width: 45px;
-    }
-
-    .chat-messages-container {
-      flex-grow: 1;
-      margin-top: 20px;
-      overflow: scroll;
-      scrollbar-width: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="js-container"></div>
-
-  <script src="https://unpkg.com/supersimpledev/react.js"></script>
-  <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
-
-  <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
-
-  <script src="https://unpkg.com/supersimpledev/babel.js"></script>
-  <script type="text/babel">
-
-    function ChatInput({ chatMessages, setChatMessages }) {
-
-      const [inputText, setInputText] = React.useState('');
+      const [inputText, setInputText] = useState('');
 
       function saveInputText(event) {
         setInputText(event.target.value);
@@ -149,25 +62,23 @@
       return (
         <div className={sender === 'user' ? "chat-message-user" : "chat-message-robot"}>
           {sender === 'robot' && (
-            <img src="robot.png" className="chat-message-profile" />
+            <img src={RobotProfileImage} className="chat-message-profile" />
           )}
           <div className="chat-message-text">
             {message}
           </div>
           {sender === 'user' && (
-            <img src="user.png" className="chat-message-profile" />
+            <img src={UserProfileImage} className="chat-message-profile" />
           )}
-
         </div>
       );
-
     }
 
     function ChatMessages({ chatMessages }) {
 
-      const chatMessagesRef = React.useRef(null);
+      const chatMessagesRef = useRef(null);
 
-      React.useEffect(() => {
+      useEffect(() => {
         const containerElem = chatMessagesRef.current;
         if (containerElem) {
           containerElem.scrollTop = containerElem.scrollHeight;
@@ -189,9 +100,10 @@
       );
     }
 
-    function App() {
 
-      const [chatMessages, setChatMessages] = React.useState([
+function App() {
+
+      const [chatMessages, setChatMessages] = useState([
         {
           message: "hello chatbot",
           sender: "user",
@@ -221,12 +133,4 @@
       );
     }
 
-    const container = document.querySelector('.js-container');
-    const root = ReactDOM.createRoot(container);
-    root.render(<App />);
-
-
-  </script>
-</body>
-
-</html>
+export default App
